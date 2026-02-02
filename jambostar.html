@@ -3,134 +3,219 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jambostar Buses | Seat Selection</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Fay | The Art of Softness</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        .seat { width: 35px; height: 35px; cursor: pointer; transition: 0.2s; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: bold; }
-        .seat-available { background-color: #e2e8f0; border: 2px solid #cbd5e1; color: #64748b; }
-        .seat-available:hover { background-color: #fcd34d; border-color: #fbbf24; color: #78350f; }
-        .seat-selected { background-color: #3b82f6 !important; border-color: #2563eb !important; color: white !important; }
-        .aisle { width: 40px; }
+        :root {
+            --fay-pink: #ff85a2;
+            --deep-rose: #d44161;
+            --soft-blush: #fff5f7;
+            --glass: rgba(255, 255, 255, 0.7);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--soft-blush);
+            color: #444;
+            overflow-x: hidden;
+        }
+
+        /* Decorative Background Orbs */
+        .orb {
+            position: fixed;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,182,193,0.4) 0%, rgba(255,255,255,0) 70%);
+            z-index: -1;
+            filter: blur(50px);
+        }
+
+        /* Header / Nav */
+        header {
+            padding: 2rem 10%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            background: var(--glass);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--deep-rose);
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #555;
+            margin-left: 30px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: 0.3s;
+        }
+
+        nav a:hover { color: var(--fay-pink); }
+
+        /* Hero Section */
+        .hero {
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 10%;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4.5rem;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            color: #222;
+        }
+
+        .hero h1 span {
+            font-style: italic;
+            color: var(--fay-pink);
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            max-width: 500px;
+            margin-bottom: 40px;
+            color: #777;
+        }
+
+        .fancy-btn {
+            padding: 18px 45px;
+            background: var(--deep-rose);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(212, 65, 97, 0.2);
+            transition: all 0.4s ease;
+            text-decoration: none;
+        }
+
+        .fancy-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(212, 65, 97, 0.3);
+            background: #b33652;
+        }
+
+        /* Product Cards */
+        .grid-container {
+            padding: 100px 10%;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 50px;
+        }
+
+        .card {
+            background: var(--glass);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            padding: 40px;
+            border-radius: 30px;
+            text-align: center;
+            backdrop-filter: blur(5px);
+            transition: 0.5s ease;
+        }
+
+        .card:hover {
+            transform: scale(1.02);
+            background: white;
+        }
+
+        .card-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            display: block;
+            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1));
+        }
+
+        .card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+
+        /* Floating Animation */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .floating { animation: float 4s ease-in-out infinite; }
+
+        footer {
+            text-align: center;
+            padding: 50px;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            color: #aaa;
+        }
+
     </style>
 </head>
-<body class="bg-gray-100 font-sans">
+<body>
 
-    <nav class="bg-blue-900 text-white p-4 shadow-md">
-        <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-xl font-black tracking-tighter text-yellow-400">JAMBOSTAR BUSES</h1>
-            <span class="text-sm bg-blue-800 px-3 py-1 rounded-full border border-blue-700">Capacity: 45 Seater</span>
+    <div class="orb" style="top: -100px; right: -100px;"></div>
+    <div class="orb" style="bottom: -100px; left: -100px;"></div>
+
+    <header>
+        <div class="logo">fay.</div>
+        <nav>
+            <a href="#">Collection</a>
+            <a href="#">Our Story</a>
+            <a href="#">Boutique</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="floating">
+            <span style="font-size: 5rem;">🌸</span>
         </div>
-    </nav>
+        <h1>Pure Comfort.<br><span>Simply Elegant.</span></h1>
+        <p>Premium tissue crafted for those who believe softness is a luxury, not just a necessity.</p>
+        <a href="#shop" class="fancy-btn">Shop the Collection</a>
+    </section>
 
-    <main class="container mx-auto py-8 px-4 grid md:grid-cols-2 gap-10">
-        
-        <div class="bg-white p-6 rounded-2xl shadow-lg border border-gray-200">
-            <h2 class="text-lg font-bold mb-6 flex items-center gap-2">
-                <span class="w-3 h-3 bg-yellow-400 rounded-full"></span> Select Your Seat (3 x 2 Layout)
-            </h2>
-            
-            <div class="flex justify-center mb-8">
-                <div class="w-full max-w-xs bg-gray-200 h-8 rounded-t-3xl border-b-4 border-gray-300 flex items-center justify-center text-[10px] text-gray-500 font-bold uppercase tracking-widest">Front / Windscreen</div>
-            </div>
-
-            <div class="flex flex-col items-center gap-3">
-                <script>
-                    const rows = 9;
-                    const container = document.currentScript.parentElement;
-                    
-                    for (let r = 1; r <= rows; r++) {
-                        let rowDiv = document.createElement('div');
-                        rowDiv.className = "flex gap-2 items-center";
-                        
-                        // Left side: 3 seats
-                        let leftSide = ['A', 'B', 'C'];
-                        leftSide.forEach(letter => {
-                            let s = document.createElement('div');
-                            s.className = "seat seat-available";
-                            s.innerText = r + letter;
-                            s.onclick = () => selectSeat(s);
-                            rowDiv.appendChild(s);
-                        });
-
-                        // The Aisle
-                        let aisle = document.createElement('div');
-                        aisle.className = "aisle";
-                        rowDiv.appendChild(aisle);
-
-                        // Right side: 2 seats
-                        let rightSide = ['D', 'E'];
-                        rightSide.forEach(letter => {
-                            let s = document.createElement('div');
-                            s.className = "seat seat-available";
-                            s.innerText = r + letter;
-                            s.onclick = () => selectSeat(s);
-                            rowDiv.appendChild(s);
-                        });
-
-                        container.appendChild(rowDiv);
-                    }
-
-                    function selectSeat(el) {
-                        document.querySelectorAll('.seat').forEach(s => s.classList.remove('seat-selected'));
-                        el.classList.add('seat-selected');
-                        document.getElementById('selectedSeatInput').value = el.innerText;
-                    }
-                </script>
-            </div>
-            
-            <div class="mt-8 flex justify-center gap-6 text-xs font-bold text-gray-500 border-t pt-4">
-                <div class="flex items-center gap-2"><div class="w-4 h-4 bg-gray-200 rounded"></div> Available</div>
-                <div class="flex items-center gap-2"><div class="w-4 h-4 bg-blue-500 rounded"></div> Selected</div>
-            </div>
+    <div class="grid-container" id="shop">
+        <div class="card">
+            <span class="card-icon">🧻</span>
+            <h3>Silk-Touch Rolls</h3>
+            <p>Quilted with air-pocket technology for ultimate delicacy.</p>
         </div>
-
-        <div class="space-y-6">
-            <div class="bg-blue-900 text-white p-6 rounded-2xl shadow-lg">
-                <h3 class="text-xl font-bold mb-4">Reservation Details</h3>
-                <form class="space-y-4">
-                    <div>
-                        <label class="block text-xs uppercase font-bold text-blue-300 mb-1">Route & Price</label>
-                        <select class="w-full bg-blue-800 border border-blue-700 p-3 rounded-lg text-white outline-none">
-                            <option>Daystar Athi ➔ Syokimau (Ksh 150)</option>
-                            <option>Daystar Athi ➔ Nairobi (Ksh 200)</option>
-                        </select>
-                    </div>
-
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-xs uppercase font-bold text-blue-300 mb-1">Departure Time</label>
-                            <select class="w-full bg-blue-800 border border-blue-700 p-3 rounded-lg text-white outline-none">
-                                <option>3:00 PM</option>
-                                <option>5:00 PM</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-xs uppercase font-bold text-blue-300 mb-1">Your Seat</label>
-                            <input id="selectedSeatInput" type="text" readonly placeholder="Pick a seat" class="w-full bg-yellow-400 border-none p-3 rounded-lg text-blue-900 font-black text-center outline-none">
-                        </div>
-                    </div>
-
-                    <div class="pt-4">
-                        <label class="block text-xs uppercase font-bold text-blue-300 mb-1">Full Name</label>
-                        <input type="text" class="w-full bg-blue-800 border border-blue-700 p-3 rounded-lg text-white outline-none" placeholder="Student Name">
-                    </div>
-
-                    <button type="submit" class="w-full bg-yellow-400 hover:bg-white text-blue-900 font-black py-4 rounded-xl transition-all shadow-xl mt-4">
-                        BOOK MY SEAT NOW
-                    </button>
-                </form>
-            </div>
-
-            <div class="bg-white p-6 rounded-2xl border border-gray-200">
-                <h4 class="font-bold text-blue-900 mb-2">Schedule Notes:</h4>
-                <ul class="text-sm text-gray-600 space-y-2">
-                    <li>• Monday to Friday only.</li>
-                    <li>• Please arrive 10 minutes before departure.</li>
-                    <li>• M-Pesa payments accepted at the bus.</li>
-                </ul>
-            </div>
+        <div class="card">
+            <span class="card-icon">🧼</span>
+            <h3>Botanical Tissues</h3>
+            <p>Infused with rosewater and vitamin E for a spa-like feel.</p>
         </div>
-    </main>
+        <div class="card">
+            <span class="card-icon">✨</span>
+            <h3>Signature Gold</h3>
+            <p>The strongest, softest 4-ply experience in the world.</p>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2026 FAY LUXURY INTERNATIONALE. DESIGNED FOR COMFORT.
+    </footer>
 
 </body>
 </html>
