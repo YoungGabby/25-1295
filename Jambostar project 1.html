@@ -1,72 +1,167 @@
-const rows = 9;
-const container = document.currentScript.parentElement;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jambostar Buses | Seat Selection</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .seat { width: 35px; height: 35px; cursor: pointer; transition: 0.2s; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: bold; }
+        .seat-available { background-color: #e2e8f0; border: 2px solid #cbd5e1; color: #64748b; }
+        .seat-available:hover { background-color: #fcd34d; border-color: #fbbf24; color: #78350f; }
+        .seat-selected { background-color: #3b82f6 !important; border-color: #2563eb !important; color: white !important; }
+        .aisle { width: 40px; }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans">
 
-// 1. GENERATE THE FRONT ROW (Row 0: Driver + Extra Seats)
-let frontRow = document.createElement('div');
-frontRow.className = "flex gap-2 items-center mb-4 pb-4 border-b border-dashed border-gray-300";
+    <nav class="bg-blue-900 text-white p-4 shadow-md">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-black tracking-tighter text-yellow-400">JAMBOSTAR BUSES</h1>
+            <span class="text-sm bg-blue-800 px-3 py-1 rounded-full border border-blue-700">Capacity: 45+ Seater</span>
+        </div>
+    </nav>
 
-// Left Side (3 Passenger Seats)
-['0A', '0B', '0C'].forEach(id => {
-    let s = document.createElement('div');
-    s.className = "seat seat-available";
-    s.innerText = id;
-    s.onclick = () => selectSeat(s);
-    frontRow.appendChild(s);
-});
+    <main class="container mx-auto py-8 px-4 grid md:grid-cols-2 gap-10">
+        
+        <div class="bg-white p-6 rounded-2xl shadow-lg border border-gray-200">
+            <h2 class="text-lg font-bold mb-6 flex items-center gap-2">
+                <span class="w-3 h-3 bg-yellow-400 rounded-full"></span> Select Your Seat (3 x 2 Layout)
+            </h2>
+            
+            <div class="flex flex-col items-center gap-3">
+                <script>
+                    const rows = 9;
+                    const container = document.currentScript.parentElement;
 
-// Aisle
-let frontAisle = document.createElement('div');
-frontAisle.className = "aisle";
-frontRow.appendChild(frontAisle);
+                    // 1. GENERATE THE FRONT ROW (Row 0: Driver + Extra Seats)
+                    let frontRow = document.createElement('div');
+                    frontRow.className = "flex gap-2 items-center mb-4 pb-4 border-b border-dashed border-gray-300";
 
-// Right Side (1 Passenger Seat + 1 Driver Seat)
-let frontPassenger = document.createElement('div');
-frontPassenger.className = "seat seat-available";
-frontPassenger.innerText = "0D";
-frontPassenger.onclick = () => selectSeat(frontPassenger);
-frontRow.appendChild(frontPassenger);
+                    // Front Left (3 Seats)
+                    ['0A', '0B', '0C'].forEach(id => {
+                        let s = document.createElement('div');
+                        s.className = "seat seat-available";
+                        s.innerText = id;
+                        s.onclick = () => selectSeat(s);
+                        frontRow.appendChild(s);
+                    });
 
-let driverSeat = document.createElement('div');
-driverSeat.className = "seat bg-gray-800 border-2 border-gray-900 text-white cursor-not-allowed";
-driverSeat.innerHTML = "🛞"; // Steering wheel icon
-frontRow.appendChild(driverSeat);
+                    // Aisle
+                    let frontAisle = document.createElement('div');
+                    frontAisle.className = "aisle";
+                    frontRow.appendChild(frontAisle);
 
-container.appendChild(frontRow);
+                    // Front Right (Passenger + Driver)
+                    let frontPassenger = document.createElement('div');
+                    frontPassenger.className = "seat seat-available";
+                    frontPassenger.innerText = "0D";
+                    frontPassenger.onclick = () => selectSeat(frontPassenger);
+                    frontRow.appendChild(frontPassenger);
 
+                    let driverSeat = document.createElement('div');
+                    driverSeat.className = "seat bg-gray-800 border-2 border-gray-900 text-white cursor-not-allowed";
+                    driverSeat.innerHTML = "🛞"; 
+                    frontRow.appendChild(driverSeat);
 
-// 2. GENERATE STANDARD ROWS (1 to 9)
-for (let r = 1; r <= rows; r++) {
-    let rowDiv = document.createElement('div');
-    rowDiv.className = "flex gap-2 items-center";
-    
-    // Left side: 3 seats
-    ['A', 'B', 'C'].forEach(letter => {
-        let s = document.createElement('div');
-        s.className = "seat seat-available";
-        s.innerText = r + letter;
-        s.onclick = () => selectSeat(s);
-        rowDiv.appendChild(s);
-    });
+                    container.appendChild(frontRow);
 
-    // The Aisle
-    let aisle = document.createElement('div');
-    aisle.className = "aisle";
-    rowDiv.appendChild(aisle);
+                    // 2. GENERATE STANDARD ROWS (1 to 9)
+                    for (let r = 1; r <= rows; r++) {
+                        let rowDiv = document.createElement('div');
+                        rowDiv.className = "flex gap-2 items-center";
+                        
+                        // Left side: 3 seats
+                        ['A', 'B', 'C'].forEach(letter => {
+                            let s = document.createElement('div');
+                            s.className = "seat seat-available";
+                            s.innerText = r + letter;
+                            s.onclick = () => selectSeat(s);
+                            rowDiv.appendChild(s);
+                        });
 
-    // Right side: 2 seats
-    ['D', 'E'].forEach(letter => {
-        let s = document.createElement('div');
-        s.className = "seat seat-available";
-        s.innerText = r + letter;
-        s.onclick = () => selectSeat(s);
-        rowDiv.appendChild(s);
-    });
+                        // Aisle
+                        let aisle = document.createElement('div');
+                        aisle.className = "aisle";
+                        rowDiv.appendChild(aisle);
 
-    container.appendChild(rowDiv);
-}
+                        // Right side: 2 seats
+                        ['D', 'E'].forEach(letter => {
+                            let s = document.createElement('div');
+                            s.className = "seat seat-available";
+                            s.innerText = r + letter;
+                            s.onclick = () => selectSeat(s);
+                            rowDiv.appendChild(s);
+                        });
 
-function selectSeat(el) {
-    document.querySelectorAll('.seat').forEach(s => s.classList.remove('seat-selected'));
-    el.classList.add('seat-selected');
-    document.getElementById('selectedSeatInput').value = el.innerText;
-}
+                        container.appendChild(rowDiv);
+                    }
+
+                    function selectSeat(el) {
+                        // Prevent selecting the driver seat
+                        if (el.classList.contains('cursor-not-allowed')) return;
+
+                        document.querySelectorAll('.seat').forEach(s => s.classList.remove('seat-selected'));
+                        el.classList.add('seat-selected');
+                        document.getElementById('selectedSeatInput').value = el.innerText;
+                    }
+                </script>
+            </div>
+            
+            <div class="mt-8 flex justify-center gap-6 text-xs font-bold text-gray-500 border-t pt-4">
+                <div class="flex items-center gap-2"><div class="w-4 h-4 bg-gray-200 rounded"></div> Available</div>
+                <div class="flex items-center gap-2"><div class="w-4 h-4 bg-blue-500 rounded"></div> Selected</div>
+                <div class="flex items-center gap-2"><div class="w-4 h-4 bg-gray-800 rounded"></div> Driver</div>
+            </div>
+        </div>
+
+        <div class="space-y-6">
+            <div class="bg-blue-900 text-white p-6 rounded-2xl shadow-lg">
+                <h3 class="text-xl font-bold mb-4">Reservation Details</h3>
+                <form class="space-y-4">
+                    <div>
+                        <label class="block text-xs uppercase font-bold text-blue-300 mb-1">Route & Price</label>
+                        <select class="w-full bg-blue-800 border border-blue-700 p-3 rounded-lg text-white outline-none">
+                            <option>Daystar Athi ➔ Syokimau (Ksh 150)</option>
+                            <option>Daystar Athi ➔ Nairobi (Ksh 200)</option>
+                        </select>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs uppercase font-bold text-blue-300 mb-1">Departure Time</label>
+                            <select class="w-full bg-blue-800 border border-blue-700 p-3 rounded-lg text-white outline-none">
+                                <option>3:00 PM</option>
+                                <option>5:00 PM</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs uppercase font-bold text-blue-300 mb-1">Your Seat</label>
+                            <input id="selectedSeatInput" type="text" readonly placeholder="Pick a seat" class="w-full bg-yellow-400 border-none p-3 rounded-lg text-blue-900 font-black text-center outline-none">
+                        </div>
+                    </div>
+
+                    <div class="pt-4">
+                        <label class="block text-xs uppercase font-bold text-blue-300 mb-1">Full Name</label>
+                        <input type="text" class="w-full bg-blue-800 border border-blue-700 p-3 rounded-lg text-white outline-none" placeholder="Student Name" required>
+                    </div>
+
+                    <button type="submit" class="w-full bg-yellow-400 hover:bg-white text-blue-900 font-black py-4 rounded-xl transition-all shadow-xl mt-4">
+                        BOOK MY SEAT NOW
+                    </button>
+                </form>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl border border-gray-200">
+                <h4 class="font-bold text-blue-900 mb-2">Schedule Notes:</h4>
+                <ul class="text-sm text-gray-600 space-y-2">
+                    <li>• Monday to Friday only.</li>
+                    <li>• Please arrive 10 minutes before departure.</li>
+                    <li>• M-Pesa payments accepted at the bus.</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>
