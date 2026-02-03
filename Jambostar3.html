@@ -1,0 +1,72 @@
+const rows = 9;
+const container = document.currentScript.parentElement;
+
+// 1. GENERATE THE FRONT ROW (Row 0: Driver + Extra Seats)
+let frontRow = document.createElement('div');
+frontRow.className = "flex gap-2 items-center mb-4 pb-4 border-b border-dashed border-gray-300";
+
+// Left Side (3 Passenger Seats)
+['0A', '0B', '0C'].forEach(id => {
+    let s = document.createElement('div');
+    s.className = "seat seat-available";
+    s.innerText = id;
+    s.onclick = () => selectSeat(s);
+    frontRow.appendChild(s);
+});
+
+// Aisle
+let frontAisle = document.createElement('div');
+frontAisle.className = "aisle";
+frontRow.appendChild(frontAisle);
+
+// Right Side (1 Passenger Seat + 1 Driver Seat)
+let frontPassenger = document.createElement('div');
+frontPassenger.className = "seat seat-available";
+frontPassenger.innerText = "0D";
+frontPassenger.onclick = () => selectSeat(frontPassenger);
+frontRow.appendChild(frontPassenger);
+
+let driverSeat = document.createElement('div');
+driverSeat.className = "seat bg-gray-800 border-2 border-gray-900 text-white cursor-not-allowed";
+driverSeat.innerHTML = "🛞"; // Steering wheel icon
+frontRow.appendChild(driverSeat);
+
+container.appendChild(frontRow);
+
+
+// 2. GENERATE STANDARD ROWS (1 to 9)
+for (let r = 1; r <= rows; r++) {
+    let rowDiv = document.createElement('div');
+    rowDiv.className = "flex gap-2 items-center";
+    
+    // Left side: 3 seats
+    ['A', 'B', 'C'].forEach(letter => {
+        let s = document.createElement('div');
+        s.className = "seat seat-available";
+        s.innerText = r + letter;
+        s.onclick = () => selectSeat(s);
+        rowDiv.appendChild(s);
+    });
+
+    // The Aisle
+    let aisle = document.createElement('div');
+    aisle.className = "aisle";
+    rowDiv.appendChild(aisle);
+
+    // Right side: 2 seats
+    ['D', 'E'].forEach(letter => {
+        let s = document.createElement('div');
+        s.className = "seat seat-available";
+        s.innerText = r + letter;
+        s.onclick = () => selectSeat(s);
+        rowDiv.appendChild(s);
+    });
+
+    container.appendChild(rowDiv);
+}
+
+function selectSeat(el) {
+    document.querySelectorAll('.seat').forEach(s => s.classList.remove('seat-selected'));
+    el.classList.add('seat-selected');
+    document.getElementById('selectedSeatInput').value = el.innerText;
+}
