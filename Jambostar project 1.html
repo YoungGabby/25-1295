@@ -6,29 +6,16 @@
     <title>Jambostar Buses | Seat Selection</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Custom Background Logic */
-        body { 
-            /* Replace the URL below with your actual image link */
-            background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('URL_OF_YOUR_UPLOADED_IMAGE');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            min-height: 100vh;
-        }
-
         .seat { width: 35px; height: 35px; cursor: pointer; transition: 0.2s; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: bold; }
         .seat-available { background-color: #e2e8f0; border: 2px solid #cbd5e1; color: #64748b; }
         .seat-available:hover { background-color: #fcd34d; border-color: #fbbf24; color: #78350f; }
         .seat-selected { background-color: #3b82f6 !important; border-color: #2563eb !important; color: white !important; }
         .aisle { width: 40px; }
-        
-        /* Making cards slightly transparent to show background */
-        .glass-card { background-color: rgba(255, 255, 255, 0.9); backdrop-filter: blur(5px); }
     </style>
 </head>
-<body class="font-sans">
+<body class="bg-gray-100 font-sans">
 
-    <nav class="bg-blue-900/90 text-white p-4 shadow-md sticky top-0 z-50">
+    <nav class="bg-blue-900 text-white p-4 shadow-md">
         <div class="container mx-auto flex justify-between items-center">
             <h1 class="text-xl font-black tracking-tighter text-yellow-400">JAMBOSTAR BUSES</h1>
             <span class="text-sm bg-blue-800 px-3 py-1 rounded-full border border-blue-700">Capacity: 47 Seater</span>
@@ -37,7 +24,7 @@
 
     <main class="container mx-auto py-8 px-4 grid md:grid-cols-2 gap-10">
         
-        <div class="glass-card p-6 rounded-2xl shadow-2xl border border-gray-200">
+        <div class="bg-white p-6 rounded-2xl shadow-lg border border-gray-200">
             <h2 class="text-lg font-bold mb-6 flex items-center gap-2">
                 <span class="w-3 h-3 bg-yellow-400 rounded-full"></span> Select Your Seat (3 x 2 Layout)
             </h2>
@@ -47,23 +34,29 @@
                     const rows = 9;
                     const container = document.getElementById('bus-layout');
 
+                    // 1. GENERATE THE FRONT ROW (Row 0)
                     let frontRow = document.createElement('div');
                     frontRow.className = "flex gap-2 items-center mb-6 pb-4 border-b border-dashed border-gray-300 w-full justify-center";
 
+                    // LEFT SIDE: Driver Seat aligned with ABC block
                     let driverBlock = document.createElement('div');
-                    driverBlock.className = "w-[121px] flex justify-center"; 
+                    driverBlock.className = "w-[121px] flex justify-center"; // Total width of 3 seats (35*3 + 2*8 gap)
+                    
                     let driverSeat = document.createElement('div');
                     driverSeat.className = "seat bg-gray-800 border-2 border-gray-900 text-white cursor-not-allowed";
                     driverSeat.innerHTML = "🛞"; 
                     driverBlock.appendChild(driverSeat);
                     frontRow.appendChild(driverBlock);
 
+                    // The Aisle
                     let frontAisle = document.createElement('div');
                     frontAisle.className = "aisle";
                     frontRow.appendChild(frontAisle);
 
+                    // RIGHT SIDE: Two Passenger Seats (0D and 0E)
                     let rightFrontSide = document.createElement('div');
                     rightFrontSide.className = "flex gap-2";
+
                     ['0D', '0E'].forEach(id => {
                         let s = document.createElement('div');
                         s.className = "seat seat-available";
@@ -72,11 +65,14 @@
                         rightFrontSide.appendChild(s);
                     });
                     frontRow.appendChild(rightFrontSide);
+
                     container.appendChild(frontRow);
 
+                    // 2. GENERATE STANDARD ROWS (1 to 9)
                     for (let r = 1; r <= rows; r++) {
                         let rowDiv = document.createElement('div');
                         rowDiv.className = "flex gap-2 items-center";
+                        
                         ['A', 'B', 'C'].forEach(letter => {
                             let s = document.createElement('div');
                             s.className = "seat seat-available";
@@ -84,9 +80,11 @@
                             s.onclick = () => selectSeat(s);
                             rowDiv.appendChild(s);
                         });
+
                         let aisle = document.createElement('div');
                         aisle.className = "aisle";
                         rowDiv.appendChild(aisle);
+
                         ['D', 'E'].forEach(letter => {
                             let s = document.createElement('div');
                             s.className = "seat seat-available";
@@ -94,6 +92,7 @@
                             s.onclick = () => selectSeat(s);
                             rowDiv.appendChild(s);
                         });
+
                         container.appendChild(rowDiv);
                     }
 
@@ -114,7 +113,7 @@
         </div>
 
         <div class="space-y-6">
-            <div class="bg-blue-900/95 text-white p-6 rounded-2xl shadow-2xl">
+            <div class="bg-blue-900 text-white p-6 rounded-2xl shadow-lg">
                 <h3 class="text-xl font-bold mb-4">Reservation Details</h3>
                 <form id="bookingForm" class="space-y-4">
                     <div>
@@ -124,6 +123,7 @@
                             <option>Daystar Athi ➔ Nairobi (Ksh 200)</option>
                         </select>
                     </div>
+
                     <div class="grid grid-cols-2 gap-4">
                         <div>
                             <label class="block text-xs uppercase font-bold text-blue-300 mb-1">Departure Time</label>
@@ -137,10 +137,12 @@
                             <input id="selectedSeatInput" type="text" readonly placeholder="Pick a seat" class="w-full bg-yellow-400 border-none p-3 rounded-lg text-blue-900 font-black text-center outline-none">
                         </div>
                     </div>
+
                     <div class="pt-4">
                         <label class="block text-xs uppercase font-bold text-blue-300 mb-1">Full Name</label>
                         <input id="userName" type="text" class="w-full bg-blue-800 border border-blue-700 p-3 rounded-lg text-white outline-none" placeholder="Student Name" required>
                     </div>
+
                     <button type="submit" class="w-full bg-yellow-400 hover:bg-white text-blue-900 font-black py-4 rounded-xl transition-all shadow-xl mt-4">
                         BOOK MY SEAT NOW
                     </button>
