@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jambostar Buses | Secure Portal</title>
     <script src="https://cdn.tailwindcss.com"></script>
+	
     <style>
         .seat { width: 35px; height: 35px; cursor: pointer; transition: 0.2s; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: bold; }
         .seat-available { background-color: #e2e8f0; border: 2px solid #cbd5e1; color: #64748b; }
@@ -23,7 +24,8 @@
             <p class="text-gray-500 mb-6 font-medium">Please enter Admin Credentials</p>
             <input id="admin-pass" type="password" placeholder="Enter Admin Password" class="w-full border-2 border-gray-200 p-4 rounded-xl mb-4 outline-none focus:border-yellow-400">
             <button onclick="checkLogin()" class="w-full bg-blue-900 text-white font-bold py-4 rounded-xl hover:bg-black transition-all">LOGIN TO ADMIN</button>
-            <button onclick="closeLogin()" class="mt-4 text-sm text-gray-400 font-bold hover:text-blue-900">Cancel & Return to Booking</button>
+            <button id =""  class="mt-4 text-sm text-gray-400 font-bold hover:text-blue-900"><a href="bookingapp-user.html"> Cancel & Return to Booking</a> </button>
+			
         </div>
     </div>
 
@@ -55,7 +57,7 @@
                 <h3 class="text-xl font-bold mb-6">Reservation Form</h3>
                 <form class="space-y-4" onsubmit="confirmBooking(event)">
                     <div>
-                        <label class="block text-[10px] uppercase font-bold text-blue-300 mb-1">Select Route</label>
+					<label class="block text-[10px] uppercase font-bold text-blue-300 mb-1">Select Route</label>
                         <select id="routeSelect" class="w-full bg-blue-800 border border-blue-700 p-4 rounded-xl text-white outline-none">
                             <option value="150">Athi ➔ Shalom (Ksh 150)</option>
                             <option value="150">Athi ➔ Syokimau (Ksh 150)</option>
@@ -101,9 +103,7 @@
                     <p class="text-gray-500 text-xs font-bold uppercase">Load Factor</p>
                     <p class="text-3xl font-black text-yellow-700">88%</p>
                 </div>
-            </div>
-
-            <table class="w-full text-left">
+				<table class="w-full text-left">
                 <thead class="border-b-2 border-gray-100">
                     <tr class="text-gray-400 text-[10px] uppercase font-black">
                         <th class="py-4">Student Name</th>
@@ -127,6 +127,9 @@
     </main>
 
     <script>
+	
+		document.getElementById("myLink").href = "https://www.google.com";
+	
         let selectedSeats = [];
         const MAX_SEATS = 5;
         const ADMIN_PASS = "jambostar2026"; // Change this to your desired password
@@ -178,6 +181,7 @@
 
         function closeLogin() {
             document.getElementById('login-overlay').classList.add('hidden');
+			
         }
 
         function checkLogin() {
